@@ -207,10 +207,10 @@ _EXTERNAL_DEPS = dict(
         sha256="fc5d6c096a6b82f86613060dfef553a09b9e08afcb401fefac4b9ca221265cda",
     ),
     glslang=dict(
-        version="14.2.0",
+        version="14.3.0",
         dst_file="glslang-@VERSION@.tar.gz",
         url="https://github.com/KhronosGroup/glslang/archive/refs/tags/@VERSION@.tar.gz",
-        sha256="14a2edbb509cb3e51a9a53e3f5e435dbf5971604b4b833e63e6076e8c0a997b5",
+        sha256="be6339048e20280938d9cb399fcdd06e04f8654d43e170e8cce5a56c9a754284",
     ),
     glslang_Windows=dict(
         # Use the legacy master-tot Windows build until the main-tot one is
@@ -244,14 +244,14 @@ _EXTERNAL_DEPS = dict(
         sha256="427201f5d5151670d05c1f5b45bef5dda1f2e7dd971ef54f0feaaa7ffd2ab90c",
     ),
     harfbuzz=dict(
-        version="8.4.0",
+        version="9.0.0",
         url="https://github.com/harfbuzz/harfbuzz/archive/refs/tags/@VERSION@.tar.gz",
-        sha256="9f1ca089813b05944ad1ce8c7e018213026d35dc9bab480a21eb876838396556",
+        sha256="b7e481b109d19aefdba31e9f5888aa0cdfbe7608fed9a43494c060ce1f8a34d2",
     ),
     fribidi=dict(
-        version="1.0.13",
+        version="1.0.15",
         url="https://github.com/fribidi/fribidi/archive/refs/tags/v@VERSION@.tar.gz",
-        sha256="f24e8e381bcf76533ae56bd776196f3a0369ec28e9c0fdb6edd163277e008314",
+        sha256="0db5f0621b6fbfae5960c30da4f132009fd72bf4687f1b04a87a4cfc2a08ea38",
     ),
     moltenvk_iOS=dict(
         version="1.2.8",
@@ -1285,7 +1285,7 @@ class _EnvBuilder(venv.EnvBuilder):
         if _SYSTEM == "MinGW":
             return
         pip_install = [context.env_exe, "-m", "pip", "install"]
-        pip_install += ["meson", "ninja"]
+        pip_install += ["meson==1.4.2", "ninja"]
         logging.info("install build dependencies: %s", _cmd_join(*pip_install))
         run(pip_install, check=True)
 
