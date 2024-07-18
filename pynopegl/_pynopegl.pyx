@@ -144,6 +144,7 @@ cdef extern from "nopegl.h":
         uintptr_t display
         uintptr_t window
         int  swap_interval
+        int  disable_depth
         int  offscreen
         int32_t width
         int32_t height
@@ -184,6 +185,7 @@ cdef extern from "nopegl.h":
     int ngl_get_viewport(ngl_ctx *s, int32_t *viewport)
     int ngl_set_capture_buffer(ngl_ctx *s, void *capture_buffer)
     int ngl_set_scene(ngl_ctx *s, ngl_scene *scene)
+    int ngl_update(ngl_ctx *s, double t) nogil
     int ngl_draw(ngl_ctx *s, double t) nogil
     char *ngl_dot(ngl_ctx *s, double t) nogil
     int ngl_livectls_get(ngl_scene *scene, size_t *nb_livectlsp, ngl_livectl **livectlsp)
@@ -639,6 +641,7 @@ cdef class Config:
         display,
         window,
         swap_interval,
+        disable_depth,
         offscreen,
         width,
         height,
@@ -662,6 +665,7 @@ cdef class Config:
         self.config.display = display
         self.config.window = window
         self.config.swap_interval = swap_interval
+        self.config.disable_depth = disable_depth
         self.config.offscreen = offscreen
         self.config.width = width
         self.config.height = height
@@ -743,6 +747,11 @@ cdef class Context:
             ptr = scene.cptr
             c_scene = <ngl_scene *>ptr
         return ngl_set_scene(self.ctx, c_scene)
+
+    def update(self, double t):
+        with nogil:
+            ret = ngl_update(self.ctx, t)
+        return ret
 
     def draw(self, double t):
         with nogil:
